@@ -253,6 +253,7 @@ namespace ContactsLib
                             eName = c.FirstName.ToLower()[0] + c.LastName.ToLower();
                         else
                             eName = c.FirstName.ToLower() + "." + c.LastName.ToLower();
+
                         string emailAddress = eName + "@" + provider;
                         Email newEmail = new Email()
                         {
