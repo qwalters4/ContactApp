@@ -1,0 +1,314 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ContactWPF"
+        xmlns:MvvmLight="clr-namespace:GalaSoft.MvvmLight;assembly=GalaSoft.MvvmLight" x:Class="ContactWPF.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="700" Width="750"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Rectangle Fill="Firebrick" Grid.Row="0"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Background="AntiqueWhite">
+            <Button x:Name="ImportButton"
+                    Margin="2 2 2 2"
+                    Content="Import Contact List"
+                    Click="ImportButton_Click"/>
+            <Button x:Name="ExportButton"
+                    Margin="2 2 2 2"
+                    Content="Export Contact List"
+                    Click="ExportButton_Click"/>
+            <Label x:Name="InExLabel"
+                   Margin="2 2 2 2"
+                   Content="File name: "/>
+            <TextBox x:Name="FileNameText"
+                     Width="100"
+                     Margin="2 2 2 2"
+                     Text="{Binding FileName}"/>
+        </StackPanel>
+
+        <Rectangle Fill="Firebrick" Grid.Row="2"/>
+
+        <Grid Grid.Row="3" Background="AntiqueWhite">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="1"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBox Grid.Row="0" Text="{Binding SearchCriteria, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TextBox_TextChanged"/>
+
+                <ListBox Grid.Row="1"
+                     Background="AntiqueWhite"
+                     BorderThickness="0"
+                     ItemsSource="{Binding SearchResults}"
+                     DisplayMemberPath="FullName" 
+                     SelectedItem="{Binding SelectedContact}"/>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 2 0 2">
+                    <Button x:Name="AddContactButton" 
+                            Width="20" Height="20"
+                            Click="AddContactButton_Click">
+                        <Image Source="/Images/plusicon.png" Width="16" Height="16"/>
+                    </Button>
+                    <Button x:Name="DeleteContactButton" 
+                            Width="20" Height="20"
+                            Click="DeleteContactButton_Click">
+                        <Image Source="/Images/minusicon.png" Height="16" Width="16"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+            <Rectangle Fill="Firebrick" Grid.Column="1"/>
+
+            <Grid Grid.Column="2" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0">
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <TextBlock Text="{Binding SelectedContact.FullName}"
+                               FontSize="18" FontWeight="Bold"
+                               Visibility="{Binding EditNameVisibility}"/>
+
+                        <TextBlock Text="Last name: " Visibility="{Binding SaveCancelVisibility}"/>
+                        <TextBox Text="{Binding EditLastName}" Visibility="{Binding SaveCancelVisibility}" Margin="4 0 0 0" Width="120"/>
+                        <TextBlock Text="First name: " Visibility="{Binding SaveCancelVisibility}" Margin="4 0 0 0"/>
+                        <TextBox Text="{Binding EditFirstName}" Visibility="{Binding SaveCancelVisibility}" Margin="4 0 0 0" Width="120"/>
+
+                        <Button x:Name="EditNameButton" 
+                                Width="22" Height="22"
+                                Margin="8 0 0 0"
+                                Click="EditNameButton_Click"
+                                Visibility="{Binding EditNameVisibility}">
+                            <Image Source="/Images/edit.png"/>
+                        </Button>
+                        <Button x:Name="SaveNameButton" 
+                                Width="22" Height="22"
+                                Margin="8 0 0 0"
+                                Click="SaveNameButton_Click"
+                                Visibility="{Binding SaveCancelVisibility}">
+                            <Image Source="/Images/checkmark.png"/>
+                        </Button>
+                        <Button x:Name="CancelNameButton" 
+                                Width="22" Height="22"
+                                Margin="8 0 0 0"
+                                Click="CancelNameButton_Click"
+                                Visibility="{Binding SaveCancelVisibility}">
+                            <Image Source="/Images/cancel.png"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 2 0 2">
+                        <TextBlock Text="Company: " Margin="0 0 10 0"/>
+                        <TextBlock Text="{Binding SelectedContact.Company}" FontSize="12" FontWeight="Bold" Visibility="{Binding EditNameVisibility}"/>
+                        <TextBox Text="{Binding EditCompany}" Visibility="{Binding SaveCancelVisibility}" Margin="4 0 0 0" Width="70"/>
+                    </StackPanel>
+
+                    <ListBox Grid.Row="2" Margin="0 2 0 0" Width="200" Height="70" HorizontalAlignment="Left"
+                             DisplayMemberPath="FormattedPhone"
+                             ItemsSource="{Binding SelectedContact.Phones}"
+                             SelectedItem="{Binding SelectedPhone}"/>
+
+                    <Grid Grid.Row="2" Grid.Column="1" Margin=" 8 2 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Type: " VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Area Code: " VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Number: " VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Extension: " VerticalAlignment="Center"/>
+                        <TextBox x:Name="PhoneTypeText" Grid.Column="1" Width="70" HorizontalAlignment="Left"
+                                 Text="{Binding SelectedPhone.Type}"/>
+                        <TextBox x:Name="PhoneAreaText" Grid.Row="1" Grid.Column="1" Width="40" HorizontalAlignment="Left"
+                                 Text="{Binding SelectedPhone.AreaCode}"/>
+                        <TextBox x:Name="PhoneNumberText" Grid.Row="2" Grid.Column="1" Width="100" HorizontalAlignment="Left"
+                                 Text="{Binding SelectedPhone.Number}"/>
+                        <TextBox x:Name="PhoneExtensionText" Grid.Row="3" Grid.Column="1" Width="50" HorizontalAlignment="Left"
+                                 Text="{Binding SelectedPhone.Extension}"/>
+                    </Grid>
+
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0 2 0 0">
+                        <Button x:Name="AddPhoneButton" Click="AddPhoneButton_Click">
+                            <Image Source="/Images/plusicon.png" Width="16" Height="16"/>
+                        </Button>
+                        <Button x:Name="DeletePhoneButton" Margin="2 0 0 0" Click="DeletePhoneButton_Click">
+                            <Image Source="/Images/minusicon.png" Height="16" Width="16"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <ListBox Grid.Row="0" Margin="0 2 0 0" Width="200" Height="70" HorizontalAlignment="Left"
+                             DisplayMemberPath="Address"
+                             ItemsSource="{Binding SelectedContact.Emails}"
+                             SelectedItem="{Binding SelectedEmail}"/>
+
+                    <Grid Grid.Row="0" Grid.Column="1" Margin=" 8 2 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Type: " VerticalAlignment="Center"/>
+                        <TextBox x:Name="EmailTypeText" Grid.Column="1" Width="70" HorizontalAlignment="Left"
+                                 Text="{Binding SelectedEmail.Type}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Address: " VerticalAlignment="Center"/>
+                        <TextBox x:Name="EmailAddressText" Grid.Row="2" Grid.Column="1" Width="150" HorizontalAlignment="Left"
+                                 Text="{Binding SelectedEmail.Address}"/>
+                    </Grid>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 2 0 0">
+                        <Button x:Name="AddEmailButton" Click="AddEmailButton_Click">
+                            <Image Source="/Images/plusicon.png" Width="16" Height="16"/>
+                        </Button>
+                        <Button x:Name="DeleteEmailButton" Margin="2 0 0 0" Click="DeleteEmailButton_Click">
+                            <Image Source="/Images/minusicon.png" Height="16" Width="16"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <ListBox Grid.Row="0" Margin="0 2 0 0" Width="200" Height="70" HorizontalAlignment="Left"
+                             DisplayMemberPath="FormattedAddress"
+                             ItemsSource="{Binding SelectedContact.Addresses}"
+                             SelectedItem="{Binding SelectedAddress}"/>
+
+                    <Grid Grid.Row="0" Grid.Column="1" Margin=" 8 2 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Street: " VerticalAlignment="Center"/>
+                        <TextBox x:Name="AddressStreetText" Grid.Row="0" Grid.Column="1" Width="150" HorizontalAlignment="Left"
+                                 Text="{Binding SelectedAddress.Street}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="City: " VerticalAlignment="Center"/>
+                        <TextBox x:Name="AddressCityText" Grid.Row="1" Grid.Column="1" Width="90" HorizontalAlignment="Left"
+                                 Text="{Binding SelectedAddress.City}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="State: " VerticalAlignment="Center"/>
+                        <TextBox x:Name="AddressStateText" Grid.Row="2" Grid.Column="1" Width="50" HorizontalAlignment="Left"
+                                 Text="{Binding SelectedAddress.State}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="PostalCode: " VerticalAlignment="Center"/>
+                        <TextBox x:Name="AddressPostalCodeText" Grid.Row="3" Grid.Column="1" Width="50" HorizontalAlignment="Left"
+                                 Text="{Binding SelectedAddress.PostalCode}"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Country: " VerticalAlignment="Center"/>
+                        <TextBox x:Name="AddressCountryText" Grid.Row="4" Grid.Column="1" Width="50" HorizontalAlignment="Left"
+                                 Text="{Binding SelectedAddress.Country}"/>
+                    </Grid>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 2 0 0">
+                        <Button x:Name="AddAddressButton" Click="AddAddressButton_Click">
+                            <Image Source="/Images/plusicon.png" Width="16" Height="16"/>
+                        </Button>
+                        <Button x:Name="DeleteAddressButton" Margin="2 0 0 0" Click="DeleteAddressButton_Click">
+                            <Image Source="/Images/minusicon.png" Height="16" Width="16"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Grid.Row="4">
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Image Source="{Binding SelectedContact.Photo.Location}"
+                           Height="200"
+                           Width="200"/>
+                        <Button x:Name="AttachPhoto" Content="Attach a Photo" 
+                                VerticalAlignment="Center" 
+                                Click="AttachPhoto_Click"/>
+                        <Button x:Name="ResetPhoto" Content="Reset Photo to Default" 
+                                VerticalAlignment="Center"
+                                Click="ResetPhoto_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <Grid Grid.Column="2" Visibility="{Binding ContactGridVisibility}" Background="AntiqueWhite"/>
+        </Grid>
+        <Grid Grid.Row="3" Background="AntiqueWhite" Visibility="{Binding IntroVisibility}">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                <TextBlock Text="Welcome to the Firehose Contacts App"
+                           HorizontalAlignment="Center"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Margin="0 0 0 16"/>
+                <Image Source="/Images/firehose.png" Height="300"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
