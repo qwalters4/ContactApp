@@ -318,7 +318,7 @@ namespace ContactsLib
 
         public static void Export(string fileName, ObservableCollection<Contact> contacts)
         {
-            string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ContactApp/Contacts");
+            string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ContactApp\\Contacts");
             Directory.CreateDirectory(folder);
 
             string jsonFile = Path.Combine(folder, fileName);
@@ -352,7 +352,7 @@ namespace ContactsLib
 
         public static void Import(string fileName, ObservableCollection<Contact> contacts)
         {
-            string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ContactApp/Contacts");
+            string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ContactApp\\Contacts");
             Directory.CreateDirectory(folder);
 
             string jsonFile = Path.Combine(folder, fileName);
