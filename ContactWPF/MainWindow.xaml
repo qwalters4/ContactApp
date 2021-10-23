@@ -7,7 +7,7 @@
         xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         xmlns:MvvmLight="clr-namespace:GalaSoft.MvvmLight;assembly=GalaSoft.MvvmLight" x:Class="ContactWPF.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="775"
+        Title="IU" Height="800" Width="775"
         Loaded="Window_Loaded"
         Closing="Window_Closing"
         Background="#182639">
@@ -55,6 +55,7 @@
                    Foreground="#BFCAD9"/>
             <TextBox x:Name="FileNameText"
                      Width="120"
+                     Height="25"
                      VerticalContentAlignment="Center"
                      Margin="5"
                      TextAlignment="Center"
@@ -80,7 +81,9 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Text="{Binding SearchCriteria, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TextBox_TextChanged" BorderThickness="0" Margin="5" Background="#BFCAD9" Padding="5" TextAlignment="Center" VerticalContentAlignment="Center">
+                <TextBox Grid.Row="0" Text="{Binding SearchCriteria, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         TextChanged="TextBox_TextChanged" BorderThickness="0" Margin="5" Background="#BFCAD9"
+                         TextAlignment="Center" VerticalContentAlignment="Center" Height="25">
                     <TextBox.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="15"/>
@@ -135,7 +138,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
-                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
                         <TextBlock Text="{Binding SelectedContact.FullName}"
                                FontSize="18" FontWeight="Bold"
                                Visibility="{Binding EditNameVisibility}"
@@ -409,8 +412,14 @@
                 </Grid>
             </Grid>
 
-            <Grid Grid.Column="2" Visibility="{Binding ContactGridVisibility}" Background="#2A3E50">
-                <Label Content="Welcome to the Contact App"/>
+            <Grid Grid.Column="2" Visibility="{Binding ContactGridVisibility}" Margin="10 5 0 0">
+                <Border BorderThickness="1" Grid.Row="0" Grid.ColumnSpan="2" CornerRadius="10 0 0 0" Background="#2A3E50">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Content="Welcome" HorizontalAlignment="Center" FontSize="48" Foreground="#BFCAD9" Padding="15"/>
+                        <Image/>
+                        <Label Content="Bringing U and I together."  HorizontalAlignment="Center" Foreground="#BFCAD9" FontSize="24"/>
+                    </StackPanel>
+                </Border>
             </Grid>
         </Grid>
         <!--<Grid Grid.Row="1" Background="AntiqueWhite" Visibility="{Binding IntroVisibility}">
