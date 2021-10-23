@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ContactWPF"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
         xmlns:MvvmLight="clr-namespace:GalaSoft.MvvmLight;assembly=GalaSoft.MvvmLight" x:Class="ContactWPF.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="750"
+        Title="MainWindow" Height="800" Width="775"
         Loaded="Window_Loaded"
         Closing="Window_Closing"
-        Background="AntiqueWhite">
+        Background="#182639">
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
@@ -19,28 +20,58 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="AntiqueWhite" Margin="5">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#182639" Margin="5">
             <Button x:Name="ImportButton"
                     Margin="2 2 2 2"
                     Content="Import Contact List"
-                    Click="ImportButton_Click"/>
+                    Click="ImportButton_Click"
+                    Background="#2A3E50"
+                    Foreground="#BFCAD9"
+                    BorderThickness="0"
+                    Padding="7">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
             <Button x:Name="ExportButton"
                     Margin="2 2 2 2"
                     Content="Export Contact List"
-                    Click="ExportButton_Click"/>
+                    Click="ExportButton_Click"
+                    Background="#2A3E50"
+                    Foreground="#BFCAD9"
+                    BorderThickness="0"
+                    Padding="5">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
             <Label x:Name="InExLabel"
                    Margin="2 2 2 2"
-                   Content="File name: "/>
+                   Content="File name: "
+                   Foreground="#BFCAD9"/>
             <TextBox x:Name="FileNameText"
-                     Width="100"
-                     Margin="2 2 2 2"
-                     Text="{Binding FileName}"/>
+                     Width="120"
+                     VerticalContentAlignment="Center"
+                     Margin="5"
+                     TextAlignment="Center"
+                     Text="{Binding FileName}"
+                     Background="#BFCAD9">
+                <TextBox.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="15"/>
+                    </Style>
+                </TextBox.Resources>
+            </TextBox>
         </StackPanel>
 
-        <Grid Grid.Row="1" Background="AntiqueWhite">
+        <Grid Grid.Row="1" Background="#182639">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
@@ -49,24 +80,47 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBox Grid.Row="0" Text="{Binding SearchCriteria, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TextBox_TextChanged" BorderThickness="0" Margin="5"/>
+                <TextBox Grid.Row="0" Text="{Binding SearchCriteria, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TextBox_TextChanged" BorderThickness="0" Margin="5" Background="#BFCAD9" Padding="5" TextAlignment="Center" VerticalContentAlignment="Center">
+                    <TextBox.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
 
                 <ListBox Grid.Row="1"
-                     Background="AntiqueWhite"
+                     Background="#182639"
+                     Foreground="#BFCAD9"
                      BorderThickness="0"
                      ItemsSource="{Binding SearchResults}"
                      DisplayMemberPath="FullName" 
                      SelectedItem="{Binding SelectedContact}"/>
-                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 2 0 2">
-                    <Button x:Name="AddContactButton" 
-                            Width="20" Height="20"
-                            Click="AddContactButton_Click">
-                        <Image Source="/Images/plusicon.png" Width="16" Height="16"/>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 2 0 2" HorizontalAlignment="Center">
+                    <Button x:Name="AddContactButton"
+                            Padding="15 5"
+                            Click="AddContactButton_Click"
+                            Margin="5"
+                            Content="Add"
+                            BorderThickness="0"
+                            Background="#FFBC42">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"/>
+                            </Style>
+                        </Button.Resources>
                     </Button>
                     <Button x:Name="DeleteContactButton" 
-                            Width="20" Height="20"
-                            Click="DeleteContactButton_Click">
-                        <Image Source="/Images/minusicon.png" Height="16" Width="16"/>
+                            Padding="15 5"
+                            Click="DeleteContactButton_Click"
+                            Margin="5"
+                            Content="Remove"
+                            BorderThickness="0"
+                            Background="#FFBC42">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="15"/>
+                            </Style>
+                        </Button.Resources>
                     </Button>
                 </StackPanel>
             </Grid>
@@ -84,38 +138,57 @@
                     <StackPanel Grid.Row="0" Orientation="Horizontal">
                         <TextBlock Text="{Binding SelectedContact.FullName}"
                                FontSize="18" FontWeight="Bold"
-                               Visibility="{Binding EditNameVisibility}"/>
+                               Visibility="{Binding EditNameVisibility}"
+                               Foreground="#BFCAD9"/>
 
-                        <TextBlock Text="Last name: " Visibility="{Binding SaveCancelVisibility}"/>
-                        <TextBox Text="{Binding EditLastName}" Visibility="{Binding SaveCancelVisibility}" Margin="4 0 0 0" Width="120"/>
-                        <TextBlock Text="First name: " Visibility="{Binding SaveCancelVisibility}" Margin="4 0 0 0"/>
-                        <TextBox Text="{Binding EditFirstName}" Visibility="{Binding SaveCancelVisibility}" Margin="4 0 0 0" Width="120"/>
+                        <TextBlock Text="Last: " Visibility="{Binding SaveCancelVisibility}" Foreground="#BFCAD9"/>
+                        <TextBox Text="{Binding EditLastName}" Visibility="{Binding SaveCancelVisibility}" Margin="4 0 0 0" Width="120" Background="#BFCAD9"/>
+                        <TextBlock Text="First: " Visibility="{Binding SaveCancelVisibility}" Margin="4 0 0 0" Foreground="#BFCAD9"/>
+                        <TextBox Text="{Binding EditFirstName}" Visibility="{Binding SaveCancelVisibility}" Margin="4 0 0 0" Width="120" Background="#BFCAD9"/>
 
-                        <Button x:Name="EditNameButton" 
-                                Width="22" Height="22"
+                        <Button x:Name="EditNameButton"
                                 Margin="8 0 0 0"
+                                Padding="15 5"
                                 Click="EditNameButton_Click"
-                                Visibility="{Binding EditNameVisibility}">
-                            <Image Source="/Images/edit.png"/>
+                                Visibility="{Binding EditNameVisibility}"
+                                Content="Edit"
+                                Background="#FFBC42">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
                         </Button>
-                        <Button x:Name="SaveNameButton" 
-                                Width="22" Height="22"
+                        <Button x:Name="SaveNameButton"
+                                Padding="15 5"
                                 Margin="8 0 0 0"
                                 Click="SaveNameButton_Click"
-                                Visibility="{Binding SaveCancelVisibility}">
-                            <Image Source="/Images/checkmark.png"/>
+                                Visibility="{Binding SaveCancelVisibility}"
+                                Content="Confirm"
+                                Background="#FFBC42">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
                         </Button>
                         <Button x:Name="CancelNameButton" 
-                                Width="22" Height="22"
+                                Padding="15 5"
                                 Margin="8 0 0 0"
                                 Click="CancelNameButton_Click"
-                                Visibility="{Binding SaveCancelVisibility}">
-                            <Image Source="/Images/cancel.png"/>
+                                Visibility="{Binding SaveCancelVisibility}"
+                                Content="Discard"
+                                Background="#FFBC42">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
                         </Button>
                     </StackPanel>
                 </Grid>
 
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="1" Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -129,15 +202,16 @@
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 2 0 2">
-                        <TextBlock Text="Company: " Margin="0 0 10 0"/>
-                        <TextBlock Text="{Binding SelectedContact.Company}" FontSize="12" FontWeight="Bold" Visibility="{Binding EditNameVisibility}"/>
-                        <TextBox Text="{Binding EditCompany}" Visibility="{Binding SaveCancelVisibility}" Margin="4 0 0 0" Width="70"/>
+                        <TextBlock Text="Company: " Margin="0 0 10 0" Foreground="#BFCAD9"/>
+                        <TextBlock Text="{Binding SelectedContact.Company}" FontSize="12" FontWeight="Bold" Visibility="{Binding EditNameVisibility}" Foreground="#BFCAD9"/>
+                        <TextBox Text="{Binding EditCompany}" Visibility="{Binding SaveCancelVisibility}" Margin="4 0 0 0" Width="70" Background="#BFCAD9"/>
                     </StackPanel>
 
                     <ListBox Grid.Row="2" Margin="0 2 0 0" Width="200" Height="70" HorizontalAlignment="Left"
                              DisplayMemberPath="FormattedPhone"
                              ItemsSource="{Binding SelectedContact.Phones}"
-                             SelectedItem="{Binding SelectedPhone}"/>
+                             SelectedItem="{Binding SelectedPhone}"
+                             Background="#BFCAD9"/>
 
                     <Grid Grid.Row="2" Grid.Column="1" Margin=" 8 2 0 0">
                         <Grid.ColumnDefinitions>
@@ -151,31 +225,39 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Type: " VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Area Code: " VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Number: " VerticalAlignment="Center"/>
-                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Extension: " VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Type: " VerticalAlignment="Center" Foreground="#BFCAD9"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Area Code: " VerticalAlignment="Center" Foreground="#BFCAD9"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Number: " VerticalAlignment="Center" Foreground="#BFCAD9"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Extension: " VerticalAlignment="Center" Foreground="#BFCAD9"/>
                         <TextBox x:Name="PhoneTypeText" Grid.Column="1" Width="70" HorizontalAlignment="Left"
-                                 Text="{Binding SelectedPhone.Type}"/>
+                                 Text="{Binding SelectedPhone.Type}" Background="#BFCAD9"/>
                         <TextBox x:Name="PhoneAreaText" Grid.Row="1" Grid.Column="1" Width="40" HorizontalAlignment="Left"
-                                 Text="{Binding SelectedPhone.AreaCode}"/>
+                                 Text="{Binding SelectedPhone.AreaCode}" Background="#BFCAD9"/>
                         <TextBox x:Name="PhoneNumberText" Grid.Row="2" Grid.Column="1" Width="100" HorizontalAlignment="Left"
-                                 Text="{Binding SelectedPhone.Number}"/>
+                                 Text="{Binding SelectedPhone.Number}" Background="#BFCAD9"/>
                         <TextBox x:Name="PhoneExtensionText" Grid.Row="3" Grid.Column="1" Width="50" HorizontalAlignment="Left"
-                                 Text="{Binding SelectedPhone.Extension}"/>
+                                 Text="{Binding SelectedPhone.Extension}" Background="#BFCAD9"/>
                     </Grid>
 
                     <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0 2 0 0">
-                        <Button x:Name="AddPhoneButton" Click="AddPhoneButton_Click">
-                            <Image Source="/Images/plusicon.png" Width="16" Height="16"/>
+                        <Button x:Name="AddPhoneButton" Click="AddPhoneButton_Click" Content="Add" Padding="15 5" Background="#FFBC42">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
                         </Button>
-                        <Button x:Name="DeletePhoneButton" Margin="2 0 0 0" Click="DeletePhoneButton_Click">
-                            <Image Source="/Images/minusicon.png" Height="16" Width="16"/>
+                        <Button x:Name="DeletePhoneButton" Margin="2 0 0 0" Click="DeletePhoneButton_Click" Content="Remove" Padding="15 5" Background="#FFBC42">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
                         </Button>
                     </StackPanel>
                 </Grid>
 
-                <Grid Grid.Row="2">
+                <Grid Grid.Row="2" Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -190,7 +272,8 @@
                     <ListBox Grid.Row="0" Margin="0 2 0 0" Width="200" Height="70" HorizontalAlignment="Left"
                              DisplayMemberPath="Address"
                              ItemsSource="{Binding SelectedContact.Emails}"
-                             SelectedItem="{Binding SelectedEmail}"/>
+                             SelectedItem="{Binding SelectedEmail}"
+                             Background="#BFCAD9"/>
 
                     <Grid Grid.Row="0" Grid.Column="1" Margin=" 8 2 0 0">
                         <Grid.ColumnDefinitions>
@@ -202,25 +285,33 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Type: " VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Type: " VerticalAlignment="Center" Foreground="#BFCAD9"/>
                         <TextBox x:Name="EmailTypeText" Grid.Column="1" Width="70" HorizontalAlignment="Left"
-                                 Text="{Binding SelectedEmail.Type}"/>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Address: " VerticalAlignment="Center"/>
+                                 Text="{Binding SelectedEmail.Type}" Background="#BFCAD9"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Address: " VerticalAlignment="Center" Foreground="#BFCAD9"/>
                         <TextBox x:Name="EmailAddressText" Grid.Row="2" Grid.Column="1" Width="150" HorizontalAlignment="Left"
-                                 Text="{Binding SelectedEmail.Address}"/>
+                                 Text="{Binding SelectedEmail.Address}" Background="#BFCAD9"/>
                     </Grid>
 
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 2 0 0">
-                        <Button x:Name="AddEmailButton" Click="AddEmailButton_Click">
-                            <Image Source="/Images/plusicon.png" Width="16" Height="16"/>
+                        <Button x:Name="AddEmailButton" Click="AddEmailButton_Click" Background="#FFBC42" Content="Add" Padding="15 5">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
                         </Button>
-                        <Button x:Name="DeleteEmailButton" Margin="2 0 0 0" Click="DeleteEmailButton_Click">
-                            <Image Source="/Images/minusicon.png" Height="16" Width="16"/>
+                        <Button x:Name="DeleteEmailButton" Margin="2 0 0 0" Click="DeleteEmailButton_Click" Background="#FFBC42" Content="Remove" Padding="15 5">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
                         </Button>
                     </StackPanel>
                 </Grid>
 
-                <Grid Grid.Row="3">
+                <Grid Grid.Row="3" Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -235,7 +326,9 @@
                     <ListBox Grid.Row="0" Margin="0 2 0 0" Width="200" Height="70" HorizontalAlignment="Left"
                              DisplayMemberPath="FormattedAddress"
                              ItemsSource="{Binding SelectedContact.Addresses}"
-                             SelectedItem="{Binding SelectedAddress}"/>
+                             SelectedItem="{Binding SelectedAddress}"
+                             Background="#BFCAD9"
+                             />
 
                     <Grid Grid.Row="0" Grid.Column="1" Margin=" 8 2 0 0">
                         <Grid.ColumnDefinitions>
@@ -250,29 +343,37 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Street: " VerticalAlignment="Center"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Street: " VerticalAlignment="Center" Foreground="#BFCAD9"/>
                         <TextBox x:Name="AddressStreetText" Grid.Row="0" Grid.Column="1" Width="150" HorizontalAlignment="Left"
-                                 Text="{Binding SelectedAddress.Street}"/>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="City: " VerticalAlignment="Center"/>
+                                 Text="{Binding SelectedAddress.Street}" Background="#BFCAD9"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="City: " VerticalAlignment="Center" Foreground="#BFCAD9"/>
                         <TextBox x:Name="AddressCityText" Grid.Row="1" Grid.Column="1" Width="90" HorizontalAlignment="Left"
-                                 Text="{Binding SelectedAddress.City}"/>
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="State: " VerticalAlignment="Center"/>
+                                 Text="{Binding SelectedAddress.City}" Background="#BFCAD9"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="State: " VerticalAlignment="Center" Foreground="#BFCAD9"/>
                         <TextBox x:Name="AddressStateText" Grid.Row="2" Grid.Column="1" Width="50" HorizontalAlignment="Left"
-                                 Text="{Binding SelectedAddress.State}"/>
-                        <TextBlock Grid.Row="3" Grid.Column="0" Text="PostalCode: " VerticalAlignment="Center"/>
+                                 Text="{Binding SelectedAddress.State}" Background="#BFCAD9"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="PostalCode: " VerticalAlignment="Center" Foreground="#BFCAD9"/>
                         <TextBox x:Name="AddressPostalCodeText" Grid.Row="3" Grid.Column="1" Width="50" HorizontalAlignment="Left"
-                                 Text="{Binding SelectedAddress.PostalCode}"/>
-                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Country: " VerticalAlignment="Center"/>
+                                 Text="{Binding SelectedAddress.PostalCode}" Background="#BFCAD9"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Country: " VerticalAlignment="Center" Foreground="#BFCAD9"/>
                         <TextBox x:Name="AddressCountryText" Grid.Row="4" Grid.Column="1" Width="50" HorizontalAlignment="Left"
-                                 Text="{Binding SelectedAddress.Country}"/>
+                                 Text="{Binding SelectedAddress.Country}" Background="#BFCAD9"/>
                     </Grid>
 
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0 2 0 0">
-                        <Button x:Name="AddAddressButton" Click="AddAddressButton_Click">
-                            <Image Source="/Images/plusicon.png" Width="16" Height="16"/>
+                        <Button x:Name="AddAddressButton" Click="AddAddressButton_Click" Background="#FFBC42" Content="Add" Padding="15 5">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
                         </Button>
-                        <Button x:Name="DeleteAddressButton" Margin="2 0 0 0" Click="DeleteAddressButton_Click">
-                            <Image Source="/Images/minusicon.png" Height="16" Width="16"/>
+                        <Button x:Name="DeleteAddressButton" Margin="2 0 0 0" Click="DeleteAddressButton_Click" Background="#FFBC42" Content="Remove" Padding="15 5">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
                         </Button>
                     </StackPanel>
                 </Grid>
@@ -284,15 +385,33 @@
                            Width="200"/>
                         <Button x:Name="AttachPhoto" Content="Attach a Photo" 
                                 VerticalAlignment="Center" 
-                                Click="AttachPhoto_Click"/>
+                                Click="AttachPhoto_Click"
+                                Margin="5"
+                                Background="#FFBC42">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="10"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
                         <Button x:Name="ResetPhoto" Content="Reset Photo to Default" 
                                 VerticalAlignment="Center"
-                                Click="ResetPhoto_Click"/>
+                                Click="ResetPhoto_Click"
+                                Margin="5"
+                                Background="#FFBC42">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="10"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Grid>
 
-            <Grid Grid.Column="2" Visibility="{Binding ContactGridVisibility}" Background="AntiqueWhite"/>
+            <Grid Grid.Column="2" Visibility="{Binding ContactGridVisibility}" Background="#2A3E50">
+                <Label Content="Welcome to the Contact App"/>
+            </Grid>
         </Grid>
         <!--<Grid Grid.Row="1" Background="AntiqueWhite" Visibility="{Binding IntroVisibility}">
             <StackPanel Orientation="Vertical" VerticalAlignment="Center">

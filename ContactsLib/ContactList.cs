@@ -318,6 +318,12 @@ namespace ContactsLib
 
         public static void Export(string fileName, ObservableCollection<Contact> contacts)
         {
+            ////TODO check if file existsand overwrite or make new name
+            //string jsonFile = Path.Combine(folderName, "MyContacts.json");
+            //using (StreamWriter sw = new StreamWriter(jsonFile))
+            //{
+            //    sw.Write(JsonConvert.SerializeObject(contacts));
+            //}
             string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ContactApp\\Contacts");
             Directory.CreateDirectory(folder);
 

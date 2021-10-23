@@ -273,6 +273,20 @@ namespace ContactWPF
 
         public void ExportContactList()
         {
+            //System.Windows.Forms.FolderBrowserDialog dlg = new System.Windows.Forms.FolderBrowserDialog();
+            //dlg.RootFolder = System.Environment.SpecialFolder.MyDocuments;
+            //string selectedFolderName;
+
+            //if (dlg.ShowDialog() == DialogResult.OK)
+            //{
+            //    selectedFolderName = dlg.SelectedPath;
+            //}
+            //else
+            //    return;
+
+            //if (Contacts == null)
+            //    return;
+            //ContactList.Export(selectedFolderName, Contacts);
             if (FileName == null)
                 return;
             if (Contacts == null)
